@@ -1,0 +1,34 @@
+import type { CollectionConfig } from 'payload'
+
+export const Projects: CollectionConfig = {
+  slug: 'projects',
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      required: true,
+    },
+    {
+      name: 'image',
+      type: 'text', // store Cloudinary URL
+      required: true,
+    },
+    {
+      name: 'githubUrl',
+      type: 'text',
+    },
+    {
+      name: 'liveUrl',
+      type: 'text',
+    },
+    {
+      name: 'techStack',
+      type: 'text',
+    },
+  ],
+}
