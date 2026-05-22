@@ -13,8 +13,10 @@ import { Education } from './collections/Education'
 import { Projects } from './collections/Projects'
 import { Internships } from './collections/Internships'
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+const filename = typeof import.meta.url === 'string' ? fileURLToPath(import.meta.url) : __filename
+
+const dirname =
+  typeof import.meta.url === 'string' ? path.dirname(fileURLToPath(import.meta.url)) : __dirname
 
 export default buildConfig({
   admin: {
@@ -23,7 +25,6 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  // Order: About → Skills → Education → Projects → Internships
   collections: [Users, Media, About, Skills, Education, Projects, Internships],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
