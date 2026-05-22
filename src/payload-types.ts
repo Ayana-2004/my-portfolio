@@ -69,10 +69,11 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    projects: Project;
-    skills: Skill;
     about: About;
+    skills: Skill;
     education: Education;
+    projects: Project;
+    internships: Internship;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,10 +83,11 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    projects: ProjectsSelect<false> | ProjectsSelect<true>;
-    skills: SkillsSelect<false> | SkillsSelect<true>;
     about: AboutSelect<false> | AboutSelect<true>;
+    skills: SkillsSelect<false> | SkillsSelect<true>;
     education: EducationSelect<false> | EducationSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    internships: InternshipsSelect<false> | InternshipsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -171,16 +173,23 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects".
+ * via the `definition` "about".
  */
-export interface Project {
+export interface About {
   id: string;
-  title: string;
-  description: string;
-  image: string;
-  githubUrl?: string | null;
-  liveUrl?: string | null;
-  techStack?: string | null;
+  name: string;
+  bio: string;
+  photo?: (string | null) | Media;
+  location?: string | null;
+  email?: string | null;
+  /**
+   * Shown as your current working status on the portfolio.
+   */
+  currentJob?: {
+    company?: string | null;
+    role?: string | null;
+    companyUrl?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -193,20 +202,10 @@ export interface Skill {
   name: string;
   category?: ('Frontend' | 'Backend' | 'Database' | 'Tools') | null;
   icon?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about".
- */
-export interface About {
-  id: string;
-  name: string;
-  bio: string;
-  photo?: (string | null) | Media;
-  location?: string | null;
-  email?: string | null;
+  /**
+   * Lower number = shown first.
+   */
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -222,6 +221,69 @@ export interface Education {
   grade?: string | null;
   description?: string | null;
   logo?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: string;
+  title: string;
+  description: string;
+  thumbnail: string | Media;
+  techStack?:
+    | {
+        tech: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Link to the deployed / live version of the project.
+   */
+  liveUrl?: string | null;
+  /**
+   * Link to the GitHub repository.
+   */
+  githubUrl?: string | null;
+  /**
+   * Lower number = shown first.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "internships".
+ */
+export interface Internship {
+  id: string;
+  role: string;
+  company: string;
+  location?: string | null;
+  startDate: string;
+  /**
+   * Leave empty if currently ongoing.
+   */
+  endDate?: string | null;
+  current?: boolean | null;
+  /**
+   * Briefly describe your responsibilities and what you worked on.
+   */
+  description: string;
+  techStack?:
+    | {
+        tech: string;
+        id?: string | null;
+      }[]
+    | null;
+  logo?: (string | null) | Media;
+  /**
+   * Lower number = shown first.
+   */
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -258,20 +320,24 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'projects';
-        value: string | Project;
+        relationTo: 'about';
+        value: string | About;
       } | null)
     | ({
         relationTo: 'skills';
         value: string | Skill;
       } | null)
     | ({
-        relationTo: 'about';
-        value: string | About;
-      } | null)
-    | ({
         relationTo: 'education';
         value: string | Education;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'internships';
+        value: string | Internship;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -357,15 +423,21 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects_select".
+ * via the `definition` "about_select".
  */
-export interface ProjectsSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  image?: T;
-  githubUrl?: T;
-  liveUrl?: T;
-  techStack?: T;
+export interface AboutSelect<T extends boolean = true> {
+  name?: T;
+  bio?: T;
+  photo?: T;
+  location?: T;
+  email?: T;
+  currentJob?:
+    | T
+    | {
+        company?: T;
+        role?: T;
+        companyUrl?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -377,19 +449,7 @@ export interface SkillsSelect<T extends boolean = true> {
   name?: T;
   category?: T;
   icon?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about_select".
- */
-export interface AboutSelect<T extends boolean = true> {
-  name?: T;
-  bio?: T;
-  photo?: T;
-  location?: T;
-  email?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -404,6 +464,49 @@ export interface EducationSelect<T extends boolean = true> {
   grade?: T;
   description?: T;
   logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  thumbnail?: T;
+  techStack?:
+    | T
+    | {
+        tech?: T;
+        id?: T;
+      };
+  liveUrl?: T;
+  githubUrl?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "internships_select".
+ */
+export interface InternshipsSelect<T extends boolean = true> {
+  role?: T;
+  company?: T;
+  location?: T;
+  startDate?: T;
+  endDate?: T;
+  current?: T;
+  description?: T;
+  techStack?:
+    | T
+    | {
+        tech?: T;
+        id?: T;
+      };
+  logo?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }

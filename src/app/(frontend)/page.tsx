@@ -115,9 +115,14 @@ export default async function HomePage() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <p className="text-gray-300 leading-relaxed text-lg mb-6">
+              I am currently working as a{' '}
+              <span className="text-[#FFD700]">Full Stack (MERN) Trainee</span> at{' '}
+              <span className="text-[#FFD700]">Faircode Infotech</span>, gaining real-world
+              experience building full-stack web applications.
+            </p>
+            <p className="text-gray-300 leading-relaxed text-lg mb-6">
               I am a <span className="text-[#FFD700]">B.Tech ECE graduate</span> from Mangalam
-              College of Engineering, Kerala (2021-2025), currently learning Full Stack Web
-              Development.
+              College of Engineering, Kerala (2021-2025), currently learning Full Stack Development.
             </p>
             <p className="text-gray-300 leading-relaxed text-lg mb-6">
               I love building modern, responsive web applications and have hands-on experience with

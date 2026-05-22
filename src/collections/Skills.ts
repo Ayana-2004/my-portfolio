@@ -2,6 +2,11 @@ import type { CollectionConfig } from 'payload'
 
 export const Skills: CollectionConfig = {
   slug: 'skills',
+  admin: {
+    useAsTitle: 'name',
+    defaultColumns: ['name', 'category', 'order'],
+    group: 'Portfolio',
+  },
   fields: [
     {
       name: 'name',
@@ -17,6 +22,16 @@ export const Skills: CollectionConfig = {
       name: 'icon',
       type: 'text',
       required: false,
+    },
+    {
+      name: 'order',
+      type: 'number',
+      label: 'Display Order',
+      defaultValue: 0,
+      admin: {
+        description: 'Lower number = shown first.',
+        position: 'sidebar',
+      },
     },
   ],
 }
