@@ -7,9 +7,10 @@ export default async function HomePage() {
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
-  const { docs: skills } = await payload.find({ collection: 'skills' })
-  const { docs: projects } = await payload.find({ collection: 'projects' })
+  const { docs: skills } = await payload.find({ collection: 'skills', sort: 'order' })
+  const { docs: projects } = await payload.find({ collection: 'projects', sort: 'order' })
   const { docs: educations } = await payload.find({ collection: 'education' })
+  const { docs: internships } = await payload.find({ collection: 'internships', sort: 'order' })
 
   return (
     <div className="min-h-screen bg-[#030812] text-white">
@@ -42,7 +43,11 @@ export default async function HomePage() {
                 Education
               </a>
             </li>
-
+            <li>
+              <a href="#internships" className="hover:text-[#FFD700]">
+                Internships
+              </a>
+            </li>
             <li>
               <a href="#contact" className="hover:text-[#FFD700]">
                 Contact
@@ -51,7 +56,7 @@ export default async function HomePage() {
           </ul>
         </div>
       </nav>
-      {/* HERO */}
+
       {/* HERO */}
       <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-36 relative overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#FFD700]/5 rounded-full blur-[120px] pointer-events-none" />
@@ -73,7 +78,6 @@ export default async function HomePage() {
         </p>
 
         <div className="flex flex-col items-center gap-4 mt-4">
-          {/* Top Row */}
           <div className="flex gap-4 flex-wrap justify-center">
             <a
               href="#projects"
@@ -81,7 +85,6 @@ export default async function HomePage() {
             >
               View Projects
             </a>
-
             <a
               href="#contact"
               className="px-8 py-3 border border-[#FFD700] text-[#FFD700] font-bold rounded-full tracking-widest uppercase text-sm hover:bg-[#FFD700]/10 transition-all duration-300"
@@ -89,8 +92,6 @@ export default async function HomePage() {
               Contact Me
             </a>
           </div>
-
-          {/* Resume Button (Second Row) */}
           <a
             href="https://drive.google.com/file/d/13ITW3OJ0hZjVDnJ2x8vu7tc8zgPT8i2-/view?usp=sharing"
             target="_blank"
@@ -214,18 +215,16 @@ export default async function HomePage() {
 
       {/* PROJECTS */}
       <section id="projects" className="py-24 px-6 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-2 tracking-widest uppercase">
+        <h2 className="text-3xl font-bold text-center mb-2 tracking-widests uppercase">
           My <span className="text-[#FFD700]">Projects</span>
         </h2>
         <div className="w-16 h-px bg-[#FFD700] mx-auto mb-16" />
-
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project: any) => (
             <div
               key={project.id}
               className="border border-[#FFD700]/20 rounded-xl p-6 bg-[#0a1628]/30 hover:border-[#FFD700]/60 transition-all duration-300 group flex flex-col items-center text-center"
             >
-              {/* IMAGE */}
               <div className="w-full h-40 rounded-lg overflow-hidden mb-4 bg-black flex items-center justify-center">
                 <img
                   src={
@@ -247,13 +246,9 @@ export default async function HomePage() {
                   className="object-contain w-full h-full"
                 />
               </div>
-
-              {/* TITLE */}
               <h3 className="text-lg font-bold text-white group-hover:text-[#FFD700] transition-colors mb-4">
                 {project.title}
               </h3>
-
-              {/* VIEW DETAILS BUTTON */}
               <a
                 href={`/project/${project.id}`}
                 className="text-xs px-6 py-2 border border-[#FFD700]/40 text-[#FFD700] rounded-full hover:bg-[#FFD700]/10 transition-all"
@@ -308,6 +303,89 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* INTERNSHIPS */}
+      <section id="internships" className="py-24 px-6 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-2 tracking-widest uppercase">
+          My <span className="text-[#FFD700]">Internships</span>
+        </h2>
+        <div className="w-16 h-px bg-[#FFD700] mx-auto mb-16" />
+        <div className="flex flex-col gap-6">
+          {internships.map((intern: any) => (
+            <div
+              key={intern.id}
+              className="border border-[#FFD700]/20 rounded-xl p-8 bg-[#030812]/50 hover:border-[#FFD700]/50 transition-all duration-300 flex flex-col md:flex-row md:items-start gap-6"
+            >
+              {/* Logo */}
+              <div className="w-20 h-20 rounded-xl border border-[#FFD700]/20 overflow-hidden flex-shrink-0 bg-white/10 flex items-center justify-center">
+                <img
+                  src={
+                    intern.company.includes('Faircode')
+                      ? 'https://res.cloudinary.com/dkkf4schl/image/upload/q_auto/f_auto/v1778563199/umc5vqinubumbz1sifmw.png'
+                      : intern.company.includes('Kompetenzen')
+                        ? 'https://res.cloudinary.com/dkkf4schl/image/upload/q_auto/f_auto/v1779467009/kompetenzen_zqayqw.png'
+                        : intern.company.includes('Sinro') || intern.company.includes('sinro')
+                          ? 'https://res.cloudinary.com/dkkf4schl/image/upload/q_auto/f_auto/v1779466806/sinrobotics_aibrkl.png'
+                          : intern.company.includes('Keltron')
+                            ? 'https://res.cloudinary.com/dkkf4schl/image/upload/q_auto/f_auto/v1779466774/keltron_cfgbse.png'
+                            : ''
+                  }
+                  alt={intern.company}
+                  className="object-contain w-full h-full p-2"
+                />
+              </div>
+
+              {/* Details */}
+              <div className="flex-grow">
+                <h3 className="text-xl font-bold text-[#FFD700]">{intern.role}</h3>
+                <p className="text-white mt-1 font-medium">{intern.company}</p>
+                <p className="text-gray-400 text-sm mt-1">
+                  {intern.startDate
+                    ? new Date(intern.startDate).toLocaleDateString('en-US', {
+                        month: 'short',
+                        year: 'numeric',
+                      })
+                    : ''}
+                  {' – '}
+                  {intern.current
+                    ? 'Present'
+                    : intern.endDate
+                      ? new Date(intern.endDate).toLocaleDateString('en-US', {
+                          month: 'short',
+                          year: 'numeric',
+                        })
+                      : ''}
+                  {intern.location ? ` · ${intern.location}` : ''}
+                </p>
+                {intern.description && (
+                  <p className="text-gray-400 text-sm mt-3 leading-relaxed">{intern.description}</p>
+                )}
+                {intern.techStack && intern.techStack.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {intern.techStack.map((t: any, i: number) => (
+                      <span
+                        key={i}
+                        className="text-xs px-3 py-1 border border-[#FFD700]/30 text-[#FFD700] rounded-full"
+                      >
+                        {t.tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Current badge */}
+              {intern.current && (
+                <div className="flex-shrink-0">
+                  <span className="text-xs px-3 py-1 bg-[#FFD700]/10 border border-[#FFD700]/40 text-[#FFD700] rounded-full tracking-widest uppercase">
+                    Current
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </section>
 
