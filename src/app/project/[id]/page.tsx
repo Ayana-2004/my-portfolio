@@ -21,6 +21,8 @@ export default async function ProjectDetails({ params }: { params: Promise<{ id:
   }
 
   const getImage = (title: string) => {
+    if (title.includes('Blog') || title.includes('BlogSphere'))
+      return 'https://res.cloudinary.com/dkkf4schl/image/upload/q_auto/f_auto/v1779683314/blogsphere_woctqb.png'
     if (title.includes('Prestige'))
       return 'https://res.cloudinary.com/dkkf4schl/image/upload/prestige_motors_t5xeow.jpg'
     if (title.includes('Todo'))
@@ -58,7 +60,7 @@ export default async function ProjectDetails({ params }: { params: Promise<{ id:
           <img
             src={getImage(project.title)}
             alt={project.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
         </div>
 
