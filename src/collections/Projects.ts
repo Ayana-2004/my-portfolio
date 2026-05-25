@@ -22,10 +22,12 @@ export const Projects: CollectionConfig = {
     },
     {
       name: 'thumbnail',
-      type: 'upload',
-      label: 'Thumbnail Image',
-      relationTo: 'media',
-      required: true,
+      type: 'text', // 👈 change 'upload' to 'text'
+      label: 'Thumbnail Image URL',
+      required: false,
+      admin: {
+        description: 'Paste your Cloudinary image URL here.',
+      },
     },
     {
       name: 'techStack',

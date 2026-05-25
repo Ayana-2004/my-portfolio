@@ -228,19 +228,8 @@ export default async function HomePage() {
               <div className="w-full h-40 rounded-lg overflow-hidden mb-4 bg-black flex items-center justify-center">
                 <img
                   src={
-                    project.title.toLowerCase().includes('portfolio')
-                      ? 'https://res.cloudinary.com/dkkf4schl/image/upload/v1777972587/potfolio_tthmwf.png'
-                      : project.title.includes('Prestige')
-                        ? 'https://res.cloudinary.com/dkkf4schl/image/upload/prestige_motors_t5xeow.jpg'
-                        : project.title.includes('Todo')
-                          ? 'https://res.cloudinary.com/dkkf4schl/image/upload/todo_raza7u.jpg'
-                          : project.title.includes('Restaurant')
-                            ? 'https://res.cloudinary.com/dkkf4schl/image/upload/restruent_management_icf1rj.jpg'
-                            : project.title.includes('Finance') || project.title.includes('Expense')
-                              ? 'https://res.cloudinary.com/dkkf4schl/image/upload/Expence_tracker_tghb2y.jpg'
-                              : project.title.includes('Third')
-                                ? 'https://res.cloudinary.com/dkkf4schl/image/upload/third_eye_grcziv.jpg'
-                                : 'https://res.cloudinary.com/dkkf4schl/image/upload/soldiers_health_tracking_ooyutr.jpg'
+                    project.thumbnail ||
+                    'https://res.cloudinary.com/dkkf4schl/image/upload/soldiers_health_tracking_ooyutr.jpg'
                   }
                   alt={project.title}
                   className="object-contain w-full h-full"
