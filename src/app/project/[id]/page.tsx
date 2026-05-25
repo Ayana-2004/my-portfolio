@@ -71,13 +71,16 @@ export default async function ProjectDetails({ params }: { params: Promise<{ id:
         </div>
 
         {/* Tech Stack */}
-        {project.techStack && (
+        {project.techStack && project.techStack.length > 0 && (
           <div className="border border-[#FFD700]/20 rounded-2xl p-8 bg-[#0a1628]/50 mb-6">
             <h2 className="text-lg font-bold text-[#FFD700] tracking-widest uppercase mb-4">
               Tech Stack
             </h2>
             <div className="flex flex-wrap gap-3">
-              {project.techStack.split(',').map((tech: string) => (
+              {(Array.isArray(project.techStack)
+                ? project.techStack.map((t: any) => t.tech ?? t)
+                : project.techStack.split(',')
+              ).map((tech: string) => (
                 <span
                   key={tech}
                   className="px-4 py-2 bg-[#FFD700]/10 border border-[#FFD700]/30 text-[#FFD700] rounded-full text-sm"
