@@ -232,7 +232,10 @@ export interface Project {
   id: string;
   title: string;
   description: string;
-  thumbnail: string | Media;
+  /**
+   * Paste your Cloudinary image URL here (optional).
+   */
+  thumbnail?: string | null;
   techStack?:
     | {
         tech: string;

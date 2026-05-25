@@ -22,11 +22,11 @@ export const Projects: CollectionConfig = {
     },
     {
       name: 'thumbnail',
-      type: 'text', // 👈 change 'upload' to 'text'
+      type: 'text', // 👈 change upload to text
       label: 'Thumbnail Image URL',
-      required: false,
+      required: false, // 👈 change true to false
       admin: {
-        description: 'Paste your Cloudinary image URL here.',
+        description: 'Paste your Cloudinary image URL here (optional).',
       },
     },
     {
